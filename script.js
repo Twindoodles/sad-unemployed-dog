@@ -1,6 +1,7 @@
 let happiness = 0;
 
 var spriteSheet = document.querySelector('.dog_spritesheet');
+var display = document.querySelector('.dog');
 var dog = document.querySelector('.interactiveArea');
 var happinessMeter = document.querySelector('#happiness');
 var feed = document.querySelector('#feed');
@@ -65,12 +66,31 @@ dog.addEventListener('mouseout', (e) => {
     console.log("moused out of dog");
 });
 
-dog.style.cursor = "grab.ani";
+dog.style.cursor = "grab";
 
 // smooch the dog
 dog.addEventListener('click', (e) => {
+    clearTimeout(timerDefault);
+    spriteSheet.classList.remove(...classStates);
+    spriteSheet.classList.add("happiest");
+
+    // Create a new animation element
+    const clickEffect = document.createElement('div');
+    clickEffect.classList.add('click-effect');
+
+    // Position the element at the cursor's coordinates
+    clickEffect.style.left = `${(e.clientX) - 88}px`;
+    clickEffect.style.top = `${(e.clientY) - 64}px`;
+
+    // Append the element to the container
+    display.appendChild(clickEffect);
+
+    // Remove the element after the animation duration (e.g., 600ms for pulseEffect)
+    setTimeout(() => {
+        clickEffect.remove();
+    }, 600);
+    
     addHappiness(5);
-    setDefaultState();
 });
 
 // feed the dog
