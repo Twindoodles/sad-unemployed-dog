@@ -31,7 +31,7 @@ function setDefaultState() {
 
 let previousX;
 let previousY;
-const threshold = 53; // Your desired distance threshold
+const threshold = 70; // Your desired distance threshold
 
 // pet the dog increases happiness
 dog.addEventListener('mousemove', (e) => {
@@ -45,6 +45,7 @@ dog.addEventListener('mousemove', (e) => {
 
         if (distance >= threshold) {
             addHappiness(0.2);
+            addHearts(e);
         } 
     }
 
@@ -73,24 +74,8 @@ dog.addEventListener('click', (e) => {
     clearTimeout(timerDefault);
     spriteSheet.classList.remove(...classStates);
     spriteSheet.classList.add("happiest");
-
-    // Create a new animation element
-    const clickEffect = document.createElement('div');
-    clickEffect.classList.add('click-effect');
-
-    // Position the element at the cursor's coordinates
-    clickEffect.style.left = `${(e.clientX) - 88}px`;
-    clickEffect.style.top = `${(e.clientY) - 64}px`;
-
-    // Append the element to the container
-    display.appendChild(clickEffect);
-
-    // Remove the element after the animation duration (e.g., 600ms for pulseEffect)
-    setTimeout(() => {
-        clickEffect.remove();
-    }, 600);
-    
     addHappiness(5);
+    addHearts(e);
 });
 
 // feed the dog
@@ -108,6 +93,29 @@ function addHappiness(num) {
         happiness += num;
     }
     happinessMeter.textContent = happiness;
+}
+
+function addHearts(e) {
+    // Create a new animation element
+    const heartFrame = document.createElement('div');
+    const heartSpriteSheet = document.createElement('img');
+    heartSpriteSheet.src = 'hearts.png';
+    heartFrame.classList.add('heartFrame');
+    heartSpriteSheet.classList.add('heartSpriteSheet');
+    heartSpriteSheet.classList.add('heartSpriteSheet');
+    heartFrame.appendChild(heartSpriteSheet);
+
+    // Position the element at the cursor's coordinates
+    heartFrame.style.left = `${(e.clientX) - 82}px`;
+    heartFrame.style.top = `${(e.clientY) - 64}px`;
+
+    // Append the element to the container
+    display.appendChild(heartFrame);
+
+    // Remove the element after the animation duration (e.g., 600ms for pulseEffect)
+    setTimeout(() => {
+        heartFrame.remove();
+    }, 600);
 }
 
 // chat with the dog 
