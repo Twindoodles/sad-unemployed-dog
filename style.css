@@ -1,0 +1,49 @@
+:root {
+   --pixel-size: 6;
+   --og-size: 48px;
+}
+
+.dog {
+   width: calc(var(--og-size) * var(--pixel-size));
+   height: calc(var(--og-size) * var(--pixel-size));
+   overflow: hidden; 
+   position: relative;
+   margin: 4em auto;
+}
+
+.dog_spritesheet {
+   animation: moveSpritesheet 1s steps(4) infinite;
+   width: calc(192px * var(--pixel-size));
+   height: calc(240px * var(--pixel-size));
+   position: absolute;
+   
+}
+
+.pixelart {
+   image-rendering: pixelated;
+}
+.happiest {
+   top: calc((var(--og-size) * 1) * var(--pixel-size));
+}
+.happy {
+   top: calc((var(--og-size) * -1) * var(--pixel-size));
+}
+.neutral {
+   top: calc((var(--og-size) * -2) * var(--pixel-size));
+}
+.sad {
+   top: calc((var(--og-size) * -3) * var(--pixel-size));
+}
+.saddest {
+   top: calc((var(--og-size) * -4) * var(--pixel-size));
+}
+
+
+@keyframes moveSpritesheet {
+   from {
+      transform: translate3d(0px,0,0)
+   }
+   to {
+      transform: translate3d(-100%,0,0)
+   }
+}
