@@ -1,15 +1,38 @@
-let happiness = -100;
+let happiness = 0;
 
-var dog = document.querySelector('img');
+var spriteSheet = document.querySelector('.dog_spritesheet');
+var dog = document.querySelector('.interactiveArea');
 var happinessMeter = document.querySelector('#happiness');
 var feed = document.querySelector('#feed');
+const classStates = ["happiest", "happy", "neutral", "sad", "saddest"];
+
+// default state based on happiness 
+function setDefaultState() {
+    spriteSheet.classList.remove(...classStates);
+    switch(true) {
+        case happiness >= 70: 
+            spriteSheet.classList.add("happiest");
+            break;
+        case happiness < 70 && happiness >= 51: 
+            spriteSheet.classList.add("happy");
+            break;
+        case happiness < 51 && happiness >= 0: 
+            spriteSheet.classList.add("neutral");
+            break;
+        case happiness < 0 && happiness >= -50: 
+            spriteSheet.classList.add("sad");
+            break;
+        case happiness < -50: 
+            spriteSheet.classList.add("saddest");
+            break;
+    }
+}
 
 let previousX;
 let previousY;
-const hThreshold = 53; // Your desired distance threshold
-const iThreshold = 2; // Your desired distance threshold
+const threshold = 53; // Your desired distance threshold
 
-//pet the dog
+// pet the dog increases happiness
 dog.addEventListener('mousemove', (e) => {
     const currentX = e.clientX;
     const currentY = e.clientY;
@@ -19,8 +42,8 @@ dog.addEventListener('mousemove', (e) => {
         const deltaY = currentY - previousY;
         const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        if (distance >= hThreshold) {
-            addHappiness(1);
+        if (distance >= threshold) {
+            addHappiness(0.5);
         } 
     }
 
@@ -29,15 +52,29 @@ dog.addEventListener('mousemove', (e) => {
     previousY = currentY;
 });
 
+// visual for petting the dog
+dog.addEventListener('mouseover', (e) => {
+    spriteSheet.classList.remove(...classStates);
+    spriteSheet.classList.add("happiest");
+});
+
+dog.addEventListener('mouseout', (e) => {
+    setDefaultState();
+});
+
+dog.style.cursor = "grab.ani";
+
 // smooch the dog
 dog.addEventListener('click', (e) => {
     addHappiness(5);
+    setDefaultState();
 });
 
 // feed the dog
 feed.addEventListener('click', (e) => {
     dog.src = 'feed_dog.gif';
     addHappiness(20);
+    setDefaultState();
 });
 
 // helper function to add happiness
