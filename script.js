@@ -43,7 +43,7 @@ dog.addEventListener('mousemove', (e) => {
         const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
         if (distance >= threshold) {
-            addHappiness(0.5);
+            addHappiness(0.2);
         } 
     }
 
@@ -52,14 +52,17 @@ dog.addEventListener('mousemove', (e) => {
     previousY = currentY;
 });
 
+let timerDefault; 
 // visual for petting the dog
 dog.addEventListener('mouseover', (e) => {
+    clearTimeout(timerDefault);
     spriteSheet.classList.remove(...classStates);
     spriteSheet.classList.add("happiest");
 });
 
 dog.addEventListener('mouseout', (e) => {
-    setDefaultState();
+    timerDefault = setTimeout(function() {setDefaultState()}, 250);
+    console.log("moused out of dog");
 });
 
 dog.style.cursor = "grab.ani";
