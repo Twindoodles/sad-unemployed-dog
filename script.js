@@ -3,7 +3,7 @@ let happiness = 0;
 var spriteSheet = document.querySelector('.dog_spritesheet');
 var display = document.querySelector('.dog');
 var dog = document.querySelector('.interactiveArea');
-var happinessMeter = document.querySelector('#happiness');
+var happinessMeter = document.querySelector('#happinessBar');
 var feed = document.querySelector('#feed');
 const classStates = ["happiest", "happy", "neutral", "sad", "saddest"];
 
@@ -96,7 +96,7 @@ function addHappiness(num) {
     } else {
         happiness += num;
     }
-    happinessMeter.textContent = happiness;
+    updateHappinessBar();
 }
 
 function addHearts(e) {
@@ -110,8 +110,8 @@ function addHearts(e) {
     heartFrame.appendChild(heartSpriteSheet);
 
     // Position the element at the cursor's coordinates
-    heartFrame.style.left = `${(e.clientX) - 82}px`;
-    heartFrame.style.top = `${(e.clientY) - 64}px`;
+    heartFrame.style.left = `${(e.clientX) - 182}px`;
+    heartFrame.style.top = `${(e.clientY) - 164}px`;
 
     // Append the element to the container
     display.appendChild(heartFrame);
@@ -139,6 +139,20 @@ function addLove(e) {
     setTimeout(() => {
         heartFrame.remove();
     }, 600);
+}
+
+function updateHappinessBar() {
+  const happinessPercentage = (happiness / 100) * 100;
+  happinessMeter.style.width = `${happinessPercentage}%`;
+
+  // Optional: Change color based on health level
+  if (happiness > 60) {
+    happinessMeter.style.backgroundColor = '#0f0'; // Green
+  } else if (happiness > 30) {
+    happinessMeter.style.backgroundColor = '#ff0'; // Yellow
+  } else {
+    happinessMeter.style.backgroundColor = '#f00'; // Red
+  }
 }
 
 // chat with the dog 
