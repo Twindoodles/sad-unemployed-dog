@@ -8,7 +8,7 @@
    height: calc(var(--og-size) * var(--pixel-size));
    overflow: hidden; 
    position: relative;
-   margin: 4em auto;
+   margin: 0em auto;
 }
 
 .dog_spritesheet {
@@ -51,45 +51,55 @@
       transform: translate3d(-100%,0,0)
    }
 }
+.smoochFrame {
+   position: absolute;
+   width: 32px;
+   height: 32px;
+   transform: translate(-50%, -50%); /* Center the element on the cursor */
+   overflow: hidden; 
+}
+
+.smoochSpriteSheet {
+   height: calc(5px * var(--pixel-size));
+   position: absolute;
+}
 
 .heartFrame {
    position: absolute;
-   width: 24px;
-   height: 24px;
+   width: 42px;
+   height: 36px;
    overflow: hidden; 
 }
 
 .heartSpriteSheet {
-   animation: moveSpritesheet 1s steps(4) infinite;
-   height: calc(24px * var(--pixel-size));
-   position: absolute;
-}
-
-.loveFrame {
-   position: absolute;
-   width: calc((var(--og-size)/2) * var(--pixel-size));
-   height: calc((var(--og-size)/2) * var(--pixel-size));
-   overflow: hidden; 
-}
-
-.loveSpriteSheet {
-   animation: moveSpritesheet 1s steps(4) infinite;
-   height: calc(var(--og-size) * var(--pixel-size));
+   animation: moveSpritesheet 3s steps(4) infinite;
+   height: calc(6px * var(--pixel-size));
+   width: calc(28px * var(--pixel-size));
    position: absolute;
 }
 
 .happiness-bar-container {
+  position: relative;
+  margin: 3em auto 0.5em;
+  height: 40px;
+}
+
+.happiness-bar-spritesheet {
+  position: absolute;
   width: 200px; /* Max width of the health bar */
-  height: 20px;
-  background-color: #ddd; /* Background for empty health */
-  border: 1px solid #333;
-  border-radius: 5px;
-  overflow: hidden; /* Ensures the fill stays within the container */
 }
 
 .happiness-bar-fill {
-  width: 0%; /* Initial fill (full health) */
+  position:relative;
+  width: 20%; /* Initial fill (full health) */
   height: 100%;
-  background-color: #0f0; /* Green for health */
+  background-color: red; /* Green for health */
   transition: width 0.3s ease-in-out; /* Smooth transition for width changes */
+}
+
+.choice-row {
+   margin: 2em auto;
+   width: 200px;
+   display: flex;
+   justify-content: space-around;
 }

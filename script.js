@@ -1,4 +1,4 @@
-let happiness = 0;
+let happiness = 20;
 
 var spriteSheet = document.querySelector('.dog_spritesheet');
 var display = document.querySelector('.dog');
@@ -13,19 +13,19 @@ let smooch = new Audio('kiss.wav');
 function setDefaultState() {
     spriteSheet.classList.remove(...classStates);
     switch(true) {
-        case happiness >= 70: 
+        case happiness >= 90: 
             spriteSheet.classList.add("happiest");
             break;
-        case happiness < 70 && happiness >= 51: 
+        case happiness < 90 && happiness >= 75: 
             spriteSheet.classList.add("happy");
             break;
-        case happiness < 51 && happiness >= 0: 
+        case happiness < 75 && happiness >= 50: 
             spriteSheet.classList.add("neutral");
             break;
-        case happiness < 0 && happiness >= -50: 
+        case happiness < 50 && happiness >= 20: 
             spriteSheet.classList.add("sad");
             break;
-        case happiness < -50: 
+        case happiness < 20: 
             spriteSheet.classList.add("saddest");
             break;
     }
@@ -46,7 +46,7 @@ dog.addEventListener('mousemove', (e) => {
         const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
         if (distance >= threshold) {
             addHappiness(0.2);
-            addLove(e);
+            addHeart();
         } 
     }
 
@@ -72,14 +72,14 @@ dog.style.cursor = "grab";
 
 // smooch the dog
 dog.addEventListener('click', (e) => {
-    clearTimeout(timerDefault);
-    spriteSheet.classList.remove(...classStates);
-    spriteSheet.classList.add("happiest");
-    addHappiness(5);
-    addHearts(e);
-    addLove(e);
+    // clearTimeout(timerDefault);
+    addHappiness(0.2);
+    addSmooch(e);
+    addHeart();
     smooch.load();
     smooch.play();
+    spriteSheet.classList.remove(...classStates);
+    spriteSheet.classList.add("happiest");
 });
 
 // feed the dog
@@ -87,6 +87,8 @@ feed.addEventListener('click', (e) => {
     dog.src = 'feed_dog.gif';
     addHappiness(20);
     setDefaultState();
+    smooch.load();
+    smooch.play();
 });
 
 // helper function to add happiness
@@ -99,38 +101,42 @@ function addHappiness(num) {
     updateHappinessBar();
 }
 
-function addHearts(e) {
+function addSmooch(e) {
+    // Create a new animation element
+    const smoochFrame = document.createElement('div');
+    const smoochSpriteSheet = document.createElement('img');
+    smoochSpriteSheet.src = 'smooch.png';
+    smoochFrame.classList.add('smoochFrame');
+    smoochSpriteSheet.classList.add('smoochSpriteSheet');
+    smoochSpriteSheet.classList.add('pixelart');
+    smoochFrame.appendChild(smoochSpriteSheet);
+
+    // Position the element at the cursor's coordinates
+    smoochFrame.style.left = `${(e.clientX)}px`;
+    smoochFrame.style.top = `${(e.clientY)}px`;
+
+    // Append the element to the container
+    display.appendChild(smoochFrame);
+
+    // Remove the element after the animation duration (e.g., 600ms for pulseEffect)
+    setTimeout(() => {
+        smoochFrame.remove();
+    }, 600);
+}
+
+function addHeart() {
     // Create a new animation element
     const heartFrame = document.createElement('div');
     const heartSpriteSheet = document.createElement('img');
     heartSpriteSheet.src = 'hearts.png';
     heartFrame.classList.add('heartFrame');
     heartSpriteSheet.classList.add('heartSpriteSheet');
-    heartSpriteSheet.classList.add('heartSpriteSheet');
+    heartSpriteSheet.classList.add('pixelart');
     heartFrame.appendChild(heartSpriteSheet);
 
     // Position the element at the cursor's coordinates
-    heartFrame.style.left = `${(e.clientX) - 182}px`;
-    heartFrame.style.top = `${(e.clientY) - 164}px`;
-
-    // Append the element to the container
-    display.appendChild(heartFrame);
-
-    // Remove the element after the animation duration (e.g., 600ms for pulseEffect)
-    setTimeout(() => {
-        heartFrame.remove();
-    }, 600);
-}
-
-function addLove(e) {
-    // Create a new animation element
-    const heartFrame = document.createElement('div');
-    const heartSpriteSheet = document.createElement('img');
-    heartSpriteSheet.src = 'hearts.png';
-    heartFrame.classList.add('loveFrame');
-    heartSpriteSheet.classList.add('loveSpriteSheet');
-    heartSpriteSheet.classList.add('loveSpriteSheet');
-    heartFrame.appendChild(heartSpriteSheet);
+    heartFrame.style.left = '160px';
+    heartFrame.style.top = '40px';
 
     // Append the element to the container
     display.appendChild(heartFrame);
@@ -146,9 +152,9 @@ function updateHappinessBar() {
   happinessMeter.style.width = `${happinessPercentage}%`;
 
   // Optional: Change color based on health level
-  if (happiness > 60) {
+  if (happiness > 50) {
     happinessMeter.style.backgroundColor = '#0f0'; // Green
-  } else if (happiness > 30) {
+  } else if (happiness > 20) {
     happinessMeter.style.backgroundColor = '#ff0'; // Yellow
   } else {
     happinessMeter.style.backgroundColor = '#f00'; // Red
