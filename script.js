@@ -7,6 +7,8 @@ var happinessMeter = document.querySelector('#happiness');
 var feed = document.querySelector('#feed');
 const classStates = ["happiest", "happy", "neutral", "sad", "saddest"];
 
+let smooch = new Audio('kiss.wav'); 
+
 // default state based on happiness 
 function setDefaultState() {
     spriteSheet.classList.remove(...classStates);
@@ -42,7 +44,6 @@ dog.addEventListener('mousemove', (e) => {
         const deltaX = currentX - previousX;
         const deltaY = currentY - previousY;
         const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
         if (distance >= threshold) {
             addHappiness(0.2);
             addLove(e);
@@ -65,26 +66,19 @@ dog.addEventListener('mouseover', (e) => {
 
 dog.addEventListener('mouseout', (e) => {
     timerDefault = setTimeout(function() {setDefaultState()}, 250);
-    console.log("moused out of dog");
 });
 
 dog.style.cursor = "grab";
 
-// Create a new Audio object
-let smooch = new Audio('kiss.wav'); 
-
-// Play the sound
-smooch.play();
-
 // smooch the dog
 dog.addEventListener('click', (e) => {
-    smooch.load();
     clearTimeout(timerDefault);
     spriteSheet.classList.remove(...classStates);
     spriteSheet.classList.add("happiest");
     addHappiness(5);
     addHearts(e);
     addLove(e);
+    smooch.load();
     smooch.play();
 });
 
