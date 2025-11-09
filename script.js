@@ -45,7 +45,7 @@ dog.addEventListener('mousemove', (e) => {
 
         if (distance >= threshold) {
             addHappiness(0.2);
-            addHearts(e);
+            addLove(e);
         } 
     }
 
@@ -55,6 +55,7 @@ dog.addEventListener('mousemove', (e) => {
 });
 
 let timerDefault; 
+
 // visual for petting the dog
 dog.addEventListener('mouseover', (e) => {
     clearTimeout(timerDefault);
@@ -69,13 +70,22 @@ dog.addEventListener('mouseout', (e) => {
 
 dog.style.cursor = "grab";
 
+// Create a new Audio object
+let smooch = new Audio('kiss.wav'); 
+
+// Play the sound
+smooch.play();
+
 // smooch the dog
 dog.addEventListener('click', (e) => {
+    smooch.load();
     clearTimeout(timerDefault);
     spriteSheet.classList.remove(...classStates);
     spriteSheet.classList.add("happiest");
     addHappiness(5);
     addHearts(e);
+    addLove(e);
+    smooch.play();
 });
 
 // feed the dog
@@ -108,6 +118,25 @@ function addHearts(e) {
     // Position the element at the cursor's coordinates
     heartFrame.style.left = `${(e.clientX) - 82}px`;
     heartFrame.style.top = `${(e.clientY) - 64}px`;
+
+    // Append the element to the container
+    display.appendChild(heartFrame);
+
+    // Remove the element after the animation duration (e.g., 600ms for pulseEffect)
+    setTimeout(() => {
+        heartFrame.remove();
+    }, 600);
+}
+
+function addLove(e) {
+    // Create a new animation element
+    const heartFrame = document.createElement('div');
+    const heartSpriteSheet = document.createElement('img');
+    heartSpriteSheet.src = 'hearts.png';
+    heartFrame.classList.add('loveFrame');
+    heartSpriteSheet.classList.add('loveSpriteSheet');
+    heartSpriteSheet.classList.add('loveSpriteSheet');
+    heartFrame.appendChild(heartSpriteSheet);
 
     // Append the element to the container
     display.appendChild(heartFrame);
