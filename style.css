@@ -86,7 +86,7 @@
 
 .happiness-bar-spritesheet {
   position: absolute;
-  width: 200px; /* Max width of the health bar */
+  width: calc(32px * var(--pixel-size));; /* Max width of the health bar */
 }
 
 .happiness-bar-fill {

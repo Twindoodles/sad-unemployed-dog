@@ -65,21 +65,19 @@ dog.addEventListener('mouseover', (e) => {
 });
 
 dog.addEventListener('mouseout', (e) => {
-    timerDefault = setTimeout(function() {setDefaultState()}, 250);
+    timerDefault = setTimeout(function() {setDefaultState()}, 600);
 });
 
 dog.style.cursor = "grab";
 
 // smooch the dog
 dog.addEventListener('click', (e) => {
-    // clearTimeout(timerDefault);
+    clearTimeout(timerDefault);
     addHappiness(0.2);
     addSmooch(e);
     addHeart();
     smooch.load();
     smooch.play();
-    spriteSheet.classList.remove(...classStates);
-    spriteSheet.classList.add("happiest");
 });
 
 // feed the dog
@@ -109,14 +107,15 @@ function addSmooch(e) {
     smoochFrame.classList.add('smoochFrame');
     smoochSpriteSheet.classList.add('smoochSpriteSheet');
     smoochSpriteSheet.classList.add('pixelart');
+    smoochFrame.style.position = 'absolute';
     smoochFrame.appendChild(smoochSpriteSheet);
 
     // Position the element at the cursor's coordinates
-    smoochFrame.style.left = `${(e.clientX)}px`;
-    smoochFrame.style.top = `${(e.clientY)}px`;
+    smoochFrame.style.left = `${(e.pageX)}px`;
+    smoochFrame.style.top = `${(e.pageY)}px`;
 
     // Append the element to the container
-    display.appendChild(smoochFrame);
+    document.body.appendChild(smoochFrame);
 
     // Remove the element after the animation duration (e.g., 600ms for pulseEffect)
     setTimeout(() => {
@@ -150,15 +149,6 @@ function addHeart() {
 function updateHappinessBar() {
   const happinessPercentage = (happiness / 100) * 100;
   happinessMeter.style.width = `${happinessPercentage}%`;
-
-  // Optional: Change color based on health level
-  if (happiness > 50) {
-    happinessMeter.style.backgroundColor = '#0f0'; // Green
-  } else if (happiness > 20) {
-    happinessMeter.style.backgroundColor = '#ff0'; // Yellow
-  } else {
-    happinessMeter.style.backgroundColor = '#f00'; // Red
-  }
 }
 
 // chat with the dog 
