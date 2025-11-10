@@ -1,6 +1,12 @@
 :root {
    --pixel-size: 6;
    --og-size: 48px;
+   font-family: RainyHearts; /* Sets the default font-family */
+}
+
+@font-face {
+  font-family: RainyHearts;
+  src: url("rainyhearts.ttf") format("ttf");
 }
 
 .dog {
@@ -101,11 +107,4 @@
    height: 7px;
    background-color: #EECFCC; 
    transition: width 0.3s ease-in-out; /* Smooth transition for width changes */
-}
-
-.choice-row {
-   margin: 2em auto;
-   width: 200px;
-   display: flex;
-   justify-content: space-around;
 }

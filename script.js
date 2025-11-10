@@ -5,7 +5,6 @@ var display = document.querySelector('.dog');
 var dog = document.querySelector('.interactiveArea');
 var happinessMeter = document.querySelector('#happinessBar');
 var heart = document.querySelector('.heartSpriteSheet');
-var feed = document.querySelector('#feed');
 const classStates = ["happiest", "happy", "neutral", "sad", "saddest"];
 
 let smooch = new Audio('kiss.wav'); 
@@ -84,15 +83,6 @@ dog.addEventListener('click', (e) => {
     smooch.play();
 });
 
-// feed the dog
-feed.addEventListener('click', () => {
-    dog.src = 'feed_dog.gif';
-    addHappiness(20);
-    setDefaultState();
-    smooch.load();
-    smooch.play();
-});
-
 // helper function to add happiness
 function addHappiness(num) {
     if (happiness > 100) {
@@ -141,4 +131,77 @@ function updateHappinessBar() {
 }
 
 // chat with the dog 
-// give the dog a nap
+const sales = [
+    {
+        action: "Salesman Chad wants to talk!",
+        opt1: {
+            text: "Tell him you're not interested",
+            nextpoint: 1,
+            happiness: 20,
+        },
+        opt2:  {
+            text: "Hear him out",
+            nextpoint: 2,
+            happiness: 20,
+        },
+    },
+    {
+        action: "He has a rebuttal for that! 'Sir, a classy man like you needs this car!'",
+        opt1: {
+            text: "We're not even at a dealership!",
+            nextpoint: 0,
+            happiness: 20,
+        },
+        opt2: {
+            text: "Ooo a new car",
+            nextpoint: 2,
+            happiness: 20,
+        }
+    },
+    {
+        action: "Ssssoooooooo, what kind of TV service do you have?",
+        opt1: {
+            text: "Tell him your landlord pays for it",
+            nextpoint: 1,
+            happiness: 20,
+        },
+        opt2: {
+            text: "Tell him you don't watch much TV",
+            nextpoint: 0,
+            happiness: 20,
+        }
+    }
+];
+
+const state = {
+  index: 0,
+  data: sales,
+  get current() {
+    return this.data[this.index]
+  }
+};
+
+const ui = {
+  action: document.querySelector('#action-text'),
+  left: document.querySelector('#option-1'),
+  right: document.querySelector('#option-2')
+};
+
+const update = (nextpoint) => {
+  state.index = nextpoint;
+  render();
+};
+
+const render = () => {
+  ui.action.innerText = state.current.action;
+  ui.left.innerText = state.current.opt1.text;
+  ui.right.innerText = state.current.opt2.text;
+  happiness += parseFloat(state.current.happiness);
+  console.log(parseFloat(state.current.happiness));
+};
+
+ui.left.addEventListener('click', () => update(state.current.opt1.nextpoint));
+ui.right.addEventListener('click', () => update(state.current.opt2.nextpoint));
+
+render();
+
