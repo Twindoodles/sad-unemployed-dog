@@ -9,6 +9,19 @@ const classStates = ["happiest", "happy", "neutral", "sad", "saddest"];
 
 let smooch = new Audio('kiss.wav'); 
 let click = new Audio('click.wav');
+
+// helper function to add happiness
+function addHappiness(num) {
+    if (happiness > 100) {
+        happiness = 100;
+    } else if (happiness < 0) {
+        happiness = 0;
+    } else {
+        happiness += num;
+    }
+    updateHappinessBar();
+}
+
 // default state based on happiness 
 function setDefaultState() {
     spriteSheet.classList.remove(...classStates);
@@ -82,18 +95,6 @@ dog.addEventListener('click', (e) => {
     smooch.load();
     smooch.play();
 });
-
-// helper function to add happiness
-function addHappiness(num) {
-    if (happiness > 100) {
-        happiness = 100;
-    } else if (happiness < 0) {
-        happiness = 0;
-    } else {
-        happiness += num;
-    }
-    updateHappinessBar();
-}
 
 function addSmooch(e) {
     // Create a new animation element
@@ -388,7 +389,8 @@ ui.right.addEventListener('click', () => {
     update(state.current.opt2.nextpoint);
     click.play();
 });
-
+ui.left.style.cursor = "pointer";
+ui.right.style.cursor = "pointer";
 render();
 
 function aniReaction(addedHappiness) {
