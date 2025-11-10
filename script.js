@@ -4,6 +4,7 @@ var spriteSheet = document.querySelector('.dog_spritesheet');
 var display = document.querySelector('.dog');
 var dog = document.querySelector('.interactiveArea');
 var happinessMeter = document.querySelector('#happinessBar');
+var heart = document.querySelector('.heartSpriteSheet');
 var feed = document.querySelector('#feed');
 const classStates = ["happiest", "happy", "neutral", "sad", "saddest"];
 
@@ -45,6 +46,7 @@ dog.addEventListener('mousemove', (e) => {
         const deltaY = currentY - previousY;
         const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
         if (distance >= threshold) {
+            clearTimeout(timerHeart);
             addHappiness(0.2);
             addHeart();
         } 
@@ -56,9 +58,10 @@ dog.addEventListener('mousemove', (e) => {
 });
 
 let timerDefault; 
+let timerHeart;
 
 // visual for petting the dog
-dog.addEventListener('mouseover', (e) => {
+dog.addEventListener('mouseover', () => {
     clearTimeout(timerDefault);
     spriteSheet.classList.remove(...classStates);
     spriteSheet.classList.add("happiest");
@@ -73,6 +76,7 @@ dog.style.cursor = "grab";
 // smooch the dog
 dog.addEventListener('click', (e) => {
     clearTimeout(timerDefault);
+    clearTimeout(timerHeart);
     addHappiness(0.2);
     addSmooch(e);
     addHeart();
@@ -81,7 +85,7 @@ dog.addEventListener('click', (e) => {
 });
 
 // feed the dog
-feed.addEventListener('click', (e) => {
+feed.addEventListener('click', () => {
     dog.src = 'feed_dog.gif';
     addHappiness(20);
     setDefaultState();
@@ -124,25 +128,10 @@ function addSmooch(e) {
 }
 
 function addHeart() {
-    // Create a new animation element
-    const heartFrame = document.createElement('div');
-    const heartSpriteSheet = document.createElement('img');
-    heartSpriteSheet.src = 'hearts.png';
-    heartFrame.classList.add('heartFrame');
-    heartSpriteSheet.classList.add('heartSpriteSheet');
-    heartSpriteSheet.classList.add('pixelart');
-    heartFrame.appendChild(heartSpriteSheet);
-
-    // Position the element at the cursor's coordinates
-    heartFrame.style.left = '160px';
-    heartFrame.style.top = '40px';
-
-    // Append the element to the container
-    display.appendChild(heartFrame);
-
+    heart.style.opacity = "1";
     // Remove the element after the animation duration (e.g., 600ms for pulseEffect)
-    setTimeout(() => {
-        heartFrame.remove();
+    timerHeart = setTimeout(() => {
+        heart.style.opacity = "0";
     }, 600);
 }
 

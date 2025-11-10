@@ -65,6 +65,8 @@
 }
 
 .heartFrame {
+   margin-top: 40px;
+   margin-left: 160px;
    position: absolute;
    width: 42px;
    height: 36px;
@@ -72,29 +74,33 @@
 }
 
 .heartSpriteSheet {
-   animation: moveSpritesheet 3s steps(4) infinite;
+   animation: moveSpritesheet 1s steps(4) infinite;
    height: calc(6px * var(--pixel-size));
    width: calc(28px * var(--pixel-size));
    position: absolute;
+   opacity: 0;
 }
 
 .happiness-bar-container {
   position: relative;
-  margin: 3em auto 0.5em;
-  height: 40px;
+  margin: 3em auto 0em;
+  height: 44px;
+  width: calc(24px * var(--pixel-size));
 }
 
 .happiness-bar-spritesheet {
   position: absolute;
-  width: calc(32px * var(--pixel-size));; /* Max width of the health bar */
+  width: calc(32px * var(--pixel-size)); /* Max width of the health bar */
 }
 
 .happiness-bar-fill {
-  position:relative;
-  width: 20%; /* Initial fill (full health) */
-  height: 100%;
-  background-color: red; /* Green for health */
-  transition: width 0.3s ease-in-out; /* Smooth transition for width changes */
+   margin-top: 16px;
+   margin-left: 36px;
+   position:absolute;
+   width: 20%; /* Initial fill (full health) */
+   height: 7px;
+   background-color: #EECFCC; 
+   transition: width 0.3s ease-in-out; /* Smooth transition for width changes */
 }
 
 .choice-row {
