@@ -8,7 +8,7 @@ var heart = document.querySelector('.heartSpriteSheet');
 const classStates = ["happiest", "happy", "neutral", "sad", "saddest"];
 
 let smooch = new Audio('kiss.wav'); 
-
+let click = new Audio('click.wav');
 // default state based on happiness 
 function setDefaultState() {
     spriteSheet.classList.remove(...classStates);
@@ -87,6 +87,8 @@ dog.addEventListener('click', (e) => {
 function addHappiness(num) {
     if (happiness > 100) {
         happiness = 100;
+    } else if (happiness < 0) {
+        happiness = 0;
     } else {
         happiness += num;
     }
@@ -127,50 +129,222 @@ function addHeart() {
 
 function updateHappinessBar() {
   const happinessPercentage = (happiness / 100) * 100;
+  if (happinessPercentage > 100) happinessPercentage = 100;
+  if (happinessPercentage < 0) happinessPercentage = 0;
   happinessMeter.style.width = `${happinessPercentage}%`;
 }
 
 // chat with the dog 
 const sales = [
     {
-        action: "Salesman Chad wants to talk!",
+        action: "",
         opt1: {
-            text: "Tell him you're not interested",
+            text: "What's wrong lil dude?",
             nextpoint: 1,
-            happiness: 20,
+            happiness: 0,
         },
         opt2:  {
-            text: "Hear him out",
-            nextpoint: 2,
-            happiness: 20,
-        },
-    },
-    {
-        action: "He has a rebuttal for that! 'Sir, a classy man like you needs this car!'",
-        opt1: {
-            text: "We're not even at a dealership!",
-            nextpoint: 0,
-            happiness: 20,
-        },
-        opt2: {
-            text: "Ooo a new car",
-            nextpoint: 2,
-            happiness: 20,
-        }
-    },
-    {
-        action: "Ssssoooooooo, what kind of TV service do you have?",
-        opt1: {
-            text: "Tell him your landlord pays for it",
+            text: "",
             nextpoint: 1,
+            happiness: 0,
+        },
+    },
+    {
+        action: `"Can't talk. Too busy applying."`,
+        opt1: {
+            text: "Are you getting a job?",
+            nextpoint: 2,
+            happiness: 0,
+        },
+        opt2: {
+            text: "Why would a dog need a job?",
+            nextpoint: 2,
+            happiness: 0,
+        }
+    },
+    {
+        action: `"My treats aren't going to buy themselves."`,
+        opt1: {
+            text: "Even dogs have to work in this economy?",
+            nextpoint: 5,
+            happiness: 0,
+        },
+        opt2: {
+            text: "Offer to adopt",
+            nextpoint: 3,
+            happiness: -20,
+        }
+    },
+    {
+        action: `"NOOOOOO!!!! I don't want to leave my hooman!!!!!"`,
+        opt1: {
+            text: "Well they sound like a bad hooman if they’re making you work",
+            nextpoint: 4,
+            happiness: 0,
+        },
+        opt2: {
+            text: "",
+            nextpoint: 0,
+            happiness: 0,
+        }
+    },
+    {
+        action: `"They’ve been giving up their meals for me. I want to repay them."`,
+        opt1: {
+            text: "Oh...",
+            nextpoint: 5,
+            happiness: 0,
+        },
+        opt2: {
+            text: "",
+            nextpoint: 0,
+            happiness: 0,
+        }
+    },
+    {
+        action: `"I want to be a taste tester, but no one is hiring me "`,
+        opt1: {
+            text: "(have they ever been?)",
+            nextpoint: 6,
+            happiness: 0,
+        },
+        opt2: {
+            text: "Offer to help",
+            nextpoint: 6,
+            happiness: 10,
+        }
+    },
+    {
+        action: `"Here, you can review my resume"`,
+        opt1: {
+            text: "(Degree in being cute?!)",
+            nextpoint: 7,
+            happiness: 0,
+        },
+        opt2: {
+            text: "(Won big back contest in 2017 against 50 other dogs?!)",
+            nextpoint: 7,
+            happiness: 0,
+        }
+    },
+    {
+        action: ``,
+        opt1: {
+            text: "(They really are qualified)",
+            nextpoint: 8,
+            happiness: 0,
+        },
+        opt2: {
+            text: "",
+            nextpoint: 8,
+            happiness: 0,
+        }
+    },
+    {
+        action: `"I feel like I have no future "`,
+        opt1: {
+            text: "Continue",
+            nextpoint: 9,
+            happiness: -10,
+        },
+        opt2: {
+            text: "",
+            nextpoint: 9,
+            happiness: 0,
+        }
+    },
+    {
+        action: `"I’ve been applying all year but there’s nothing…"`,
+        opt1: {
+            text: "Continue",
+            nextpoint: 10,
+            happiness: -10,
+        },
+        opt2: {
+            text: "",
+            nextpoint: 10,
+            happiness: 0,
+        }
+    },
+        {
+        action: `"What am I going to tell my hooman?"`,
+        opt1: {
+            text: "I think your hooman…",
+            nextpoint: 11,
+            happiness: 0,
+        },
+        opt2: {
+            text: "",
+            nextpoint: 11,
+            happiness: 0,
+        }
+    },
+            {
+        action: ``,
+        opt1: {
+            text: "Is going to say that they’re proud of you",
+            nextpoint: 12,
             happiness: 20,
         },
         opt2: {
-            text: "Tell him you don't watch much TV",
-            nextpoint: 0,
+            text: "",
+            nextpoint: 12,
+            happiness: 0,
+        }
+    },
+    {
+        action: ``,
+        opt1: {
+            text: "And that they’ll love you no matter what",
+            nextpoint: 13,
+            happiness: 20,
+        },
+        opt2: {
+            text: "",
+            nextpoint: 12,
+            happiness: 0,
+        }
+    },
+    {
+        action: `"Really?"`,
+        opt1: {
+            text: "Yeah. They'd be a monster if they didn't.",
+            nextpoint: 14,
+            happiness: 20,
+        },
+        opt2: {
+            text: "",
+            nextpoint: 12,
+            happiness: 0,
+        }
+    },
+        {
+        action: ``,
+        opt1: {
+            text: "You've been a good dog.",
+            nextpoint: 15,
+            happiness: 40,
+        },
+        opt2: {
+            text: "Pet the dog",
+            nextpoint: 15,
+            happiness: 40,
+        }
+    },
+            {
+        action: `The end :)`,
+        opt1: {
+            text: "",
+            nextpoint: 14,
+            happiness: 20,
+        },
+        opt2: {
+            text: "",
+            nextpoint: 14,
             happiness: 20,
         }
-    }
+    },
+    
 ];
 
 const state = {
@@ -196,12 +370,38 @@ const render = () => {
   ui.action.innerText = state.current.action;
   ui.left.innerText = state.current.opt1.text;
   ui.right.innerText = state.current.opt2.text;
-  happiness += parseFloat(state.current.happiness);
-  console.log(parseFloat(state.current.happiness));
 };
 
-ui.left.addEventListener('click', () => update(state.current.opt1.nextpoint));
-ui.right.addEventListener('click', () => update(state.current.opt2.nextpoint));
+
+ui.left.addEventListener('click', () => {
+    let addedHappiness = parseInt(state.current.opt1.happiness);
+    aniReaction(addedHappiness);
+    addHappiness(addedHappiness);
+    update(state.current.opt1.nextpoint);
+    click.play();
+});
+
+ui.right.addEventListener('click', () => {
+    let addedHappiness = parseInt(state.current.opt2.happiness);
+    aniReaction(addedHappiness);
+    addHappiness(addedHappiness);
+    update(state.current.opt2.nextpoint);
+    click.play();
+});
 
 render();
 
+function aniReaction(addedHappiness) {
+    if (addedHappiness > 0) {
+        clearTimeout(timerDefault);
+        addHeart();
+        spriteSheet.classList.remove(...classStates);
+        spriteSheet.classList.add("happiest");
+        timerDefault = setTimeout(function() {setDefaultState()}, 600);
+    } else if (addedHappiness < 0) {
+        clearTimeout(timerDefault);
+        spriteSheet.classList.remove(...classStates);
+        spriteSheet.classList.add("saddest");
+        timerDefault = setTimeout(function() {setDefaultState()}, 600);
+    }
+}

@@ -90,6 +90,7 @@
 .happiness-bar-container {
   position: relative;
   margin: 3em auto 0em;
+  padding-right: 32px;
   height: 44px;
   width: calc(24px * var(--pixel-size));
 }
@@ -107,4 +108,19 @@
    height: 7px;
    background-color: #EECFCC; 
    transition: width 0.3s ease-in-out; /* Smooth transition for width changes */
+}
+.main-hub {
+   padding-top: 1em;
+   text-align: center;
+}
+#options {
+   color: #808080
+}
+
+#option-1:hover {
+   color: #000000;
+}
+
+#option-2:hover {
+   color: #000000;
 }
